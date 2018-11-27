@@ -28,7 +28,6 @@ class Message extends Component {
   }
 
   render() {
-    console.log("rendering message from:\n\t" + JSON.stringify(this.props.msg));
     return <MessagePresenter msg={this.props.msg}/>
   }
 
