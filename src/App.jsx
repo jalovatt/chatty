@@ -22,10 +22,25 @@ class App extends Component {
     super();
 
     this.state = {
-      nav: {},
       messages: messages,
-      chatBar: {}
+      chatBar: {
+        currentUser: {name: "Adam"},
+        content: ""
+      }
     }
+  }
+
+  componentDidMount() {
+    console.log("componentDidMount <App />");
+    setTimeout(() => {
+      console.log("Simulating incoming message");
+
+      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
+      const messages = this.state.messages.concat(newMessage);
+
+      this.setState({messages: messages});
+    }, 3000);
+
   }
 
   render() {

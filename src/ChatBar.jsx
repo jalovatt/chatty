@@ -19,7 +19,8 @@ class ChatBar extends Component {
   }
 
   render() {
-    return <ChatBarPresenter username={this.props.username} content={this.props.username}/>;
+    const {currentUser, content} = this.props.state;
+    return <ChatBarPresenter username={currentUser.name} content={content}/>;
   }
 
 }
