@@ -3,10 +3,11 @@
 @import url('https://fonts.googleapis.com/css?family=Titillium+Web:400,400i');
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
 
-body {
-  background: white;
-  color: black;
-  font-family: 'Electrolize', 'Open Sans', sans-serif;
-  font-size: 14px;
-  margin: 70px 0;
-}
+
+$text-color:          hsl(60,  30%, 96%);
+$bg-color:            hsl(70,   8%, 15%);
+$text-color-magenta:  hsl(338, 95%, 56%);
+$text-color-blue:     hsl(190, 81%, 67%);
+
+$font-main: 'Electrolize', 'Open Sans', sans-serif;
+$font-alt: 'Titillium', 'Open Sans', sans-serif;
