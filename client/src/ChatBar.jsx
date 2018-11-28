@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-function ChatBarPresenter({props, cb}) {
+function ChatBarPresenter({nameBuffer, contentBuffer, cb}) {
 
   return (
 
@@ -8,7 +8,7 @@ function ChatBarPresenter({props, cb}) {
       <input
         className="chatbar-username"
         placeholder="Your Name (Optional)"
-        value={props.nameBuffer || ""}
+        value={nameBuffer || ""}
         onChange={cb.onNameChange}
         onBlur={cb.onNameBlur}
         onKeyPress={cb.onNameKeyPress}
@@ -16,7 +16,7 @@ function ChatBarPresenter({props, cb}) {
       <input
         className="chatbar-message"
         placeholder="Type a message and hit ENTER"
-        value={props.contentBuffer || ""}
+        value={contentBuffer || ""}
         onChange={cb.onContentChange}
         onKeyPress={cb.onContentKeyPress}
       />
@@ -85,7 +85,7 @@ class ChatBar extends Component {
 
     return (
       <ChatBarPresenter
-        props={this.state}
+        {...this.state}
         cb={cb}
       />
     );

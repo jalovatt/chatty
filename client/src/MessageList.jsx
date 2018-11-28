@@ -5,7 +5,7 @@ function MessageListPresenter({messages}) {
 
   return (
     <main className="messages">
-      {messages.map((msg) => <Message key={msg.content} msg={msg} />)}
+      {messages.map((msg) => <Message key={msg.id} msg={msg} />)}
     </main>
   );
 

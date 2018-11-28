@@ -1,0 +1,12 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
+
+$text-color:          hsl(98, 100%, 45%);
+$bg-color:            hsl(98, 100%, 5%);
+$highlight-a:  hsl(98, 100%, 65%);
+$highlight-b:     hsl(98, 100%, 55%);;
+
+$glow-plain:    0px 0px 2px $text-color;
+$glow-highlight-a:     0px 0px 4px $highlight-a;
+$glow-highlight-b:  0px 0px 4px $highlight-b;
+
+$font: "Courier New", Courier, monospace;
