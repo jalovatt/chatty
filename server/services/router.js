@@ -2,8 +2,6 @@ module.exports = function(wss, clients) {
 
   wss.on("connection", (ws) => {
 
-    console.log("Client connected");
-
     ws.on("message", (msg) => {
 
       const data = JSON.parse(msg);

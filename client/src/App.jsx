@@ -7,7 +7,7 @@ function AppPresenter({props, cb}) {
 
   return (
     <div>
-      <NavBar props={props.nav} />
+      <NavBar numUsers={props.nav.numUsers} />
       <MessageList messages={props.messages} />
       <ChatBar user={props.user} cb={cb.chatBar} />
     </div>
@@ -25,6 +25,9 @@ class App extends Component {
       user: {
         name: "",
         id: ""
+      },
+      nav: {
+        numUsers: 0
       }
     }
 
@@ -84,7 +87,10 @@ class App extends Component {
 
     this.id = msg.id;
     const messages = this.state.messages.concat(msg);
-    this.setState({messages, user: {name: msg.name}});
+    this.setState({
+      nav: {numUsers: msg.numUsers},
+      messages,
+      user: {name: msg.name}});
 
     this.cb.updateName();
 
@@ -97,6 +103,11 @@ class App extends Component {
     this.setState({user: user});
     this.cb.updateName();
 
+  }
+
+  serverUserChange(msg) {
+    this.setState({nav: {numUsers: msg.numUsers}});
+    this.newMessage(msg);
   }
 
   serverError(msg) {
@@ -119,6 +130,9 @@ class App extends Component {
     case "message":
     case "notification":
       this.newMessage(msg);
+      return;
+    case "server-user-change":
+      this.serverUserChange(msg);
       return;
     case "server-welcome":
       this.serverWelcome(msg);

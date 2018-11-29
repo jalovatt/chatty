@@ -5,13 +5,15 @@ function randomName(exists) {
   const first = [
     "Cool",
     "n00b",
-    "seXXX",
     "dark",
     "Loopy",
     "zer0",
     "ACID",
-    "cr4sh",
-
+    "Crash",
+    "lord",
+    "Mr.The",
+    "Ph4n70m",
+    "cereal"
   ];
 
   const last = [
@@ -22,7 +24,11 @@ function randomName(exists) {
     "Lighthouse",
     "c00l",
     "BURN",
-    "0v3rr1d3",
+    "Override",
+    "nikon",
+    "Plague",
+    "Phr34k",
+    "killer"
   ];
 
   function rand(max) {
@@ -47,10 +53,11 @@ module.exports = function(uuid) {
       const name = randomName(this.nameExists.bind(this));
 
       const data = {
-        type: "notification",
+        type: "server-user-change",
         content: `${name} has connected`,
         id: uuid(),
-        timestamp: new Date()
+        timestamp: new Date(),
+        numUsers: this.userCount() + 1
       }
 
       this.broadcast(data);
@@ -63,15 +70,16 @@ module.exports = function(uuid) {
     remove(id) {
 
       const name = connections[id].name;
+      delete connections[id];
 
       const data = {
-        type: "notification",
+        type: "server-user-change",
         content: `${name} has disconnected`,
         id: uuid(),
-        timestamp: new Date()
-      }
+        timestamp: new Date(),
+        numUsers: this.userCount()
+      };
 
-      delete connections[id];
       this.broadcast(data);
 
     },
@@ -140,10 +148,15 @@ module.exports = function(uuid) {
         type: "server-welcome",
         content: `Welcome, ${name}`,
         id,
-        name
+        name,
+        numUsers: this.userCount()
       };
 
       this.send(id, msg);
+    },
+
+    userCount() {
+      return Object.keys(connections).length;
     }
 
   };
