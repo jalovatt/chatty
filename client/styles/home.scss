@@ -2,9 +2,12 @@ body {
   background: $bg-color;
   color: $text-color;
   font-family: $font;
-  font-size: 30px;
-  margin: 70px 0;
+  font-size: 28px;
 
+  height: 100%;
+  width: 100%;
+
+  overflow: hidden;
 
 }
 
@@ -17,9 +20,36 @@ body {
   }
 }
 
+.background {
+
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  font-size: 160px;
+  opacity: 0.3;
+}
+
+// https://stackoverflow.com/a/4407335/9667199
+.no-select {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+input:focus {
+  outline: none;
+}
+
 .chatbar {
   background: $bg-color;
-  border-top: 1px solid black;
   bottom: 0;
   display: flex;
   left: 0;
@@ -30,35 +60,35 @@ body {
 
 .chatbar-message {
   background: $bg-color;
-  border: 1px solid $highlight-b;
+  border: none;
   display: block;
   height: 40px;
   line-height: 40px;
   margin: 5px;
   padding: 0 9px;
-  color: $highlight-b;
-  text-shadow: $glow-highlight-b;
+  color: inherit;
 }
 
 .chatbar-username {
   background: $bg-color;
-  border: 1px solid $highlight-a;
+  border: none;
   display: block;
   height: 40px;
   line-height: 40px;
   margin: 5px;
   padding: 0 9px;
-  color: $highlight-a;
-  text-shadow: $glow-highlight-a;
   font-weight: bold;
+  color: inherit;
 }
 
 .chatbar-message {
   flex: 8;
+  text-shadow: inherit;
 }
 
 .chatbar-username {
   flex: 2;
+  text-shadow: inherit;
 }
 
 .message {
@@ -71,7 +101,6 @@ body {
 .message-timestamp {
   font-style: italic;
   padding: 0px 20px;
-  text-shadow: $glow-plain;
 }
 
 .message-content,
@@ -79,42 +108,17 @@ body {
   overflow: hidden;
   margin: 0px 5px;
   padding: 0 10px;
-  text-shadow: $glow-plain;
 }
 
 .message-content {
   flex: 8;
+  overflow: visible;
+  word-wrap: normal;
 }
 
 .message-username {
   flex: 2;
   font-weight: 700;
-}
-
-.navbar {
-  color: $highlight-a;
-
-  text-shadow: $glow-highlight-a;
-  background: $bg-color;
-  border-bottom: 1px solid black;
-  height: 60px;
-  left: 0;
-  padding: 0 10px;
-  position: fixed;
-  right: 0;
-  top: 0;
-}
-
-.navbar-brand {
-  color: inherit;
-  display: block;
-  float: left;
-  font-weight: 700;
-  font-size: 200%;
-  height: 60px;
-  line-height: 60px;
-  padding: 0 10px;
-  text-decoration: none;
 }
 
 .num-users {

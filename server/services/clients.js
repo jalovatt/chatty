@@ -86,6 +86,7 @@ module.exports = function(uuid) {
 
     broadcast(data) {
       Object.keys(connections).forEach((id) => {
+        if (connections[id].socket.readyState !== 1) return;
         this.send(id, data);
       });
 

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import NavBar from "./NavBar.jsx";
+import Header from "./Header.jsx";
+import Background from "./Background.jsx";
 import MessageList from "./MessageList.jsx";
 import ChatBar from "./ChatBar.jsx";
 
@@ -7,7 +8,8 @@ function AppPresenter({props, cb}) {
 
   return (
     <div>
-      <NavBar numUsers={props.nav.numUsers} />
+      <Header numUsers={props.header.numUsers} connectedTo={props.header.connectedTo}/>
+      <Background />
       <MessageList messages={props.messages} cb={cb.messageList}/>
       <ChatBar user={props.user} cb={cb.chatBar} />
     </div>
@@ -26,10 +28,13 @@ class App extends Component {
         name: "",
         id: ""
       },
-      nav: {
-        numUsers: 0
+      header: {
+        numUsers: 0,
+        connectedTo: ""
       }
     }
+
+    this.targetAddress = "localhost:3001"
 
     this.cb = {
       chatBar: {
@@ -95,9 +100,13 @@ class App extends Component {
 
     this.id = msg.id;
     this.setState({
-      nav: {numUsers: msg.numUsers},
+      header: {
+        numUsers: msg.numUsers,
+        connectedTo: this.targetAddress
+      },
       messages: [msg],
-      user: {name: msg.name}});
+      user: {name: msg.name}
+    });
 
     this.cb.updateName();
 
@@ -156,7 +165,7 @@ class App extends Component {
 
   connectToServer() {
 
-    const socket = new WebSocket("ws://localhost:3001");
+    const socket = new WebSocket(`ws://${this.targetAddress}`);
 
     socket.onmessage = this.incomingMessage.bind(this);
 

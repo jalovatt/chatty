@@ -3,11 +3,6 @@
 
 $text-color:          hsl(98, 100%, 45%);
 $bg-color:            hsl(98, 100%, 3%);
-$highlight-a:  hsl(98, 100%, 65%);
-$highlight-b:     hsl(98, 100%, 55%);;
-
-$glow-plain:    0px 0px 2px $text-color;
-$glow-highlight-a:     0px 0px 4px $highlight-a;
-$glow-highlight-b:  0px 0px 4px $highlight-b;
+$text-highlight:  hsl(98, 100%, 65%);
 
 $font: "VT323", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
