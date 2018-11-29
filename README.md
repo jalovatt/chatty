@@ -1,45 +1,31 @@
-React Boilerplate
-=====================
+# Haxxy
 
-A minimal and light dev environment for ReactJS.
+A simple, real-time chat app built with React and a WebSocket-based backend. Users can perform chat actions using the traditional `/me ...` command, or share images using `/img ...URL...`.
 
-### Usage
+![A screenshot](assets/screenshot.png)
 
-Clone the boilerplate and create your own git repo.
+## Usage
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
+- Clone this repository.
+- In both the client and server folders, run `npm install`.
+- In the server folder, run `npm start`.
+- Open a new terminal and, in the client folder, run `npm start` as well.
+- Navigate your browser to `localhost:3000`.
+- Open more browser tabs or windows as needed to simulate multiple users.
 
-Install the dependencies and start the server.
+## Future Ideas
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
+- I'd love to have this app running on a public-facing platform like Heroku. I know how to deploy static sites, but (at the time of writing) it's a little beyond me for something like this.
 
-### Static Files
+## Dependencies
 
-You can store static files like images, fonts, etc in the `build` folder.
+- React
+- Express
+- Webpack
+- Babel
+- ESLint
+- A number of plugins for the above libraries. See the client's _package.json_ if you're genuinely curious.
 
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
+## Attributions
 
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
-
-### Dependencies
-
-* React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+- The flickering CRT effect was adapted from a post by [Alec Lownes](http://aleclownes.com/2017/02/01/crt-display.html)

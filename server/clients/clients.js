@@ -27,6 +27,7 @@ module.exports = function(uuid) {
 
     },
 
+
     removeUser(id) {
 
       const name = connections[id].name;
@@ -45,6 +46,7 @@ module.exports = function(uuid) {
       this.broadcast(data);
 
     },
+
 
     welcomeUser(id, name) {
 
@@ -72,10 +74,12 @@ module.exports = function(uuid) {
 
     },
 
+
     send(id, data) {
       const msg = JSON.stringify(data);
       connections[id].socket.send(msg);
     },
+
 
     randomName(exists) {
 
@@ -121,6 +125,7 @@ module.exports = function(uuid) {
 
     },
 
+
     parseActions(data) {
 
       const match = data.content.slice(1).match(/^([^ ]+) (.+)/);
@@ -142,6 +147,7 @@ module.exports = function(uuid) {
         return out;
       }
     },
+
 
     message(msg) {
 
@@ -165,6 +171,7 @@ module.exports = function(uuid) {
 
     },
 
+
     newNotify(msg) {
 
       const data = {
@@ -178,11 +185,13 @@ module.exports = function(uuid) {
 
     },
 
+
     nameExists(name) {
       return Object.values(connections).find((client) => {
         return client.name === name;
       });
     },
+
 
     requestName(data) {
 
@@ -204,6 +213,7 @@ module.exports = function(uuid) {
 
       this.send(data.id, res);
     },
+
 
     userCount() {
       return Object.keys(connections).length;

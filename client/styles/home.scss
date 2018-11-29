@@ -137,9 +137,10 @@ body {
     min-width: 0;
   }
 
-  &-img {
+  &-image {
 
     max-width: 50%;
+    max-height: 10em;
     object-fit: contain;
 
     transform: scale(0.01) scale(100);

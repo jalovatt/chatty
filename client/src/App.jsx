@@ -136,7 +136,10 @@ class App extends Component {
     // console.log("USER CHANGE");
     // console.dir(msg);
 
-    this.setState({header: {numUsers: msg.numUsers}});
+    const header = this.state.header;
+    header.numUsers= msg.numUsers;
+
+    this.setState({header});
     this.newMessage(msg);
   }
 
