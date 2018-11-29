@@ -9,7 +9,7 @@ function AppPresenter({props, cb}) {
     <div>
       <NavBar props={props.nav} />
       <MessageList messages={props.messages} />
-      <ChatBar user={props.currentUser} cb={cb.chatBar} />
+      <ChatBar user={props.user} cb={cb.chatBar} />
     </div>
   );
 
@@ -22,13 +22,17 @@ class App extends Component {
 
     this.state = {
       messages: [],
-      currentUser: {name: "Adam"}
+      user: {
+        name: "",
+        id: ""
+      }
     }
 
     this.cb = {
       chatBar: {
         onNameSubmit: this.onNameSubmit.bind(this),
-        onContentSubmit: this.onContentSubmit.bind(this)
+        onContentSubmit: this.onContentSubmit.bind(this),
+        getNameCB: this.getNameCB.bind(this)
       }
     }
 
@@ -36,8 +40,8 @@ class App extends Component {
 
   send(msg) {
 
-    msg.username = this.state.currentUser.name;
-    msg.id = this.uuid;
+    msg.username = this.state.user.name;
+    msg.id = this.id;
 
     // console.log("SENDING MESSAGE:");
     // console.dir(msg);
@@ -46,9 +50,6 @@ class App extends Component {
   }
 
   onNameSubmit(newName) {
-
-    const chatState = {...this.state};
-    const oldName = chatState.currentUser.name;
 
     const msg = {
       type: "request-name",
@@ -70,34 +71,40 @@ class App extends Component {
 
   }
 
+  getNameCB(cb) {
+    this.cb.updateName = cb;
+  }
+
   newMessage(msg) {
     const messages = this.state.messages.concat(msg);
     this.setState({messages});
   }
 
-  serverMessage(msg) {
+  serverWelcome(msg) {
 
-  }
+    this.id = msg.id;
+    const messages = this.state.messages.concat(msg);
+    this.setState({messages, user: {name: msg.name}});
 
-  assignId(msg) {
-    this.uuid = msg.content;
+    this.cb.updateName();
+
   }
 
   assignName(msg) {
 
-    // console.log("ASSIGN NAME:");
-    // console.dir(msg);
-
-    const user = {...this.state.currentUser};
+    const user = {...this.state.user};
     user.name = msg.content;
-    console.dir(user);
-    this.setState({currentUser: user});
+    this.setState({user: user});
+    this.cb.updateName();
 
   }
 
   serverError(msg) {
 
-    alert("Server error:\n" + msg.content);
+    const err = {...msg};
+    err.content = "Error: " + err.content;
+
+    this.newMessage(err);
 
   }
 
@@ -113,8 +120,8 @@ class App extends Component {
     case "notification":
       this.newMessage(msg);
       return;
-    case "server-id":
-      this.assignId(msg)
+    case "server-welcome":
+      this.serverWelcome(msg);
       return;
     case "server-name":
       this.assignName(msg);

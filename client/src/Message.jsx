@@ -5,7 +5,7 @@ function MessagePresenter({msg}) {
   let timestamp;
 
   switch (msg.type) {
-  default:
+  case "message":
     const time = new Date(msg.timestamp).toLocaleTimeString();
     return (
       <div className="message">
@@ -14,7 +14,8 @@ function MessagePresenter({msg}) {
         <span className="message-timestamp">{time}</span>
       </div>
     );
-  case "notification":
+
+  default:
     return (
       <div className="message system">{msg.content}</div>
     );

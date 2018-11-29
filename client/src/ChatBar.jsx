@@ -27,7 +27,7 @@ function ChatBarPresenter({nameBuffer, contentBuffer, cb}) {
 
 class ChatBar extends Component {
 
-  constructor({user, content}) {
+  constructor({user, content, cb}) {
     super();
 
     this.state = {
@@ -35,33 +35,42 @@ class ChatBar extends Component {
       contentBuffer: content
     }
 
+    this.cb = {
+      onNameChange:       this.onNameChange.bind(this),
+      onNameBlur:         this.onNameBlur.bind(this),
+      onNameKeyPress:     this.onNameKeyPress.bind(this),
+      onContentChange:    this.onContentChange.bind(this),
+      onContentKeyPress:  this.onContentKeyPress.bind(this)
+    }
+
+    cb.getNameCB(this.useNameFromProps.bind(this));
+
   }
 
   onNameChange(e) {
-
     this.setState({nameBuffer: e.target.value});
+  }
 
+  useNameFromProps() {
+    this.setState({nameBuffer: this.props.user.name});
   }
 
   onNameBlur(e) {
-
-    this.setState({nameBuffer: this.props.user.name});
-
+    this.useNameFromProps();
   }
 
   onNameKeyPress(e) {
 
     if (e.key !== "Enter") return;
-    const newName = this.props.cb.onNameSubmit(e.target.value);
 
-    this.setState({nameBuffer: newName});
+    // Passing the element as a callback so App can blur it
+    // after the name-change request comes back
+    this.props.cb.onNameSubmit(e.target.value, this.useNameFromProps.bind(this));
 
   }
 
   onContentChange(e) {
-
     this.setState({contentBuffer: e.target.value});
-
   }
 
   onContentKeyPress(e) {
@@ -75,20 +84,13 @@ class ChatBar extends Component {
 
   render() {
 
-    const cb = {
-      onNameChange:       this.onNameChange.bind(this),
-      onNameBlur:         this.onNameBlur.bind(this),
-      onNameKeyPress:     this.onNameKeyPress.bind(this),
-      onContentChange:    this.onContentChange.bind(this),
-      onContentKeyPress:  this.onContentKeyPress.bind(this)
-    }
-
     return (
       <ChatBarPresenter
         {...this.state}
-        cb={cb}
+        cb={this.cb}
       />
     );
+
   }
 
 }
