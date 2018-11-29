@@ -1,88 +1,68 @@
 const connections = {};
 
-function randomName(exists) {
-
-  const first = [
-    "Cool",
-    "n00b",
-    "dark",
-    "Loopy",
-    "zer0",
-    "ACID",
-    "Crash",
-    "lord",
-    "Mr.The",
-    "Ph4n70m",
-    "cereal"
-  ];
-
-  const last = [
-    "lord",
-    "Qu33n",
-    "king",
-    "inator",
-    "Lighthouse",
-    "c00l",
-    "BURN",
-    "Override",
-    "nikon",
-    "Plague",
-    "Phr34k",
-    "killer"
-  ];
-
-  function rand(max) {
-    return Math.floor(Math.random() * max);
-  }
-
-  let name;
-  do {
-    name = first[rand(first.length)] + last[rand(last.length)];
-  } while (exists(name));
-
-  return name;
-
-}
-
 module.exports = function(uuid) {
 
   return {
 
-    add(socket) {
+    addUser(socket) {
+
       const id = uuid();
-      const name = randomName(this.nameExists.bind(this));
+      const name = this.randomName(this.nameExists.bind(this));
+      const numUsers = this.userCount() + 1;
 
       const data = {
         type: "server-user-change",
-        content: `${name} has connected`,
+        content: `${name} has connected. There are now ${numUsers} users online.`,
         id: uuid(),
         timestamp: new Date(),
-        numUsers: this.userCount() + 1
+        numUsers
       }
 
       this.broadcast(data);
 
       connections[id] = {id, name, socket};
-      return [id, name];
+      this.welcomeUser(id, name);
+
+      return id;
 
     },
 
-    remove(id) {
+    removeUser(id) {
 
       const name = connections[id].name;
       delete connections[id];
 
+      const numUsers = this.userCount();
+
       const data = {
         type: "server-user-change",
-        content: `${name} has disconnected`,
+        content: `${name} has disconnected. There are ${numUsers} users still online.`,
         id: uuid(),
         timestamp: new Date(),
-        numUsers: this.userCount()
+        numUsers
       };
 
       this.broadcast(data);
 
     },
+
+    welcomeUser(id, name) {
+
+      const numUsers = this.userCount();
+
+      const msg = {
+        type: "server-welcome",
+        content: `Welcome, ${name}. There are ${numUsers} users online. Type /me ... to perform actions or /img ...URL... to display an image.`,
+        id,
+        name,
+        timestamp: new Date(),
+        numUsers: numUsers
+      };
+
+      this.send(id, msg);
+
+    },
+
 
     broadcast(data) {
       Object.keys(connections).forEach((id) => {
@@ -95,6 +75,50 @@ module.exports = function(uuid) {
     send(id, data) {
       const msg = JSON.stringify(data);
       connections[id].socket.send(msg);
+    },
+
+    randomName(exists) {
+
+      const first = [
+        "Cool",
+        "n00b",
+        "dark",
+        "Loopy",
+        "zer0",
+        "ACID",
+        "Crash",
+        "lord",
+        "Mr.The",
+        "Ph4n70m",
+        "cereal"
+      ];
+
+      const last = [
+        "lord",
+        "Qu33n",
+        "king",
+        "inator",
+        "Lighthouse",
+        "c00l",
+        "BURN",
+        "Override",
+        "nikon",
+        "Plague",
+        "Phr34k",
+        "killer"
+      ];
+
+      function rand(max) {
+        return Math.floor(Math.random() * max);
+      }
+
+      let name;
+      do {
+        name = first[rand(first.length)] + last[rand(last.length)];
+      } while (exists(name));
+
+      return name;
+
     },
 
     parseActions(data) {
@@ -119,7 +143,16 @@ module.exports = function(uuid) {
       }
     },
 
-    newMessage(data) {
+    message(msg) {
+
+      const data = JSON.parse(msg);
+
+      // Check for any special request types
+      switch (data.type) {
+      case "request-name":
+        this.requestName(data);
+        return;
+      }
 
       data.id = uuid();
       data.timestamp = new Date();
@@ -154,6 +187,7 @@ module.exports = function(uuid) {
     requestName(data) {
 
       const res = {};
+
       if (data.content === "") {
         res.type = "server-error";
         res.content = "You must have a name";
@@ -169,19 +203,6 @@ module.exports = function(uuid) {
       }
 
       this.send(data.id, res);
-    },
-
-    welcome(id, name) {
-      const msg = {
-        type: "server-welcome",
-        content: `Welcome, ${name}. Type /me ... to perform actions or /img ...URL... to display an image.`,
-        id,
-        name,
-        timestamp: new Date(),
-        numUsers: this.userCount()
-      };
-
-      this.send(id, msg);
     },
 
     userCount() {

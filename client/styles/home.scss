@@ -4,6 +4,7 @@ html {
   height: 100%;
 }
 
+
 body {
 
   box-sizing: border-box;
@@ -30,13 +31,9 @@ body {
 
 }
 
-@keyframes flicker{
-  $steps:20;
-  @for $i from 0 through $steps{
-    #{percentage($i*(1/$steps))}{
-      opacity:random();
-    }
-  }
+*::selection {
+  color: $bg-color;
+  background: $text-color-heading;
 }
 
 .background {
@@ -52,6 +49,7 @@ body {
   opacity: 0.3;
 }
 
+
 // https://stackoverflow.com/a/4407335/9667199
 .no-select {
   -webkit-touch-callout: none; /* iOS Safari */
@@ -63,12 +61,8 @@ body {
                                   supported by Chrome and Opera */
 }
 
-input:focus {
-  outline: none;
-}
 
-
-header {
+.status-bar {
 
   color: $text-color-heading;
   background-color: $bg-color-heading;
@@ -80,18 +74,19 @@ header {
 
   display: flex;
 
+  &-connected-to {
+    flex: 8;
+    margin-left: 1ch;
+  }
+
+  &-num-users {
+    flex: 2;
+    text-align: right;
+    margin-right: 1ch;
+  }
+
 }
 
-.connected-to {
-  flex: 8;
-  margin-left: 1ch;
-}
-
-.num-users {
-  flex: 2;
-  text-align: right;
-  margin-right: 1ch;
-}
 
 .messages {
 
@@ -108,47 +103,58 @@ header {
 
   width: calc(100% - 2ch);
 
-}
+  &::-webkit-scrollbar {
+    background-color: $bg-color-heading;
+  }
 
-.messages::-webkit-scrollbar {
-  background-color: $bg-color-heading;
-}
+  &::-webkit-scrollbar-thumb {
+    background-color: $text-color-heading;
+  }
 
-.messages::-webkit-scrollbar-thumb {
-  background-color: $text-color-heading;
 }
-
 
 
 .message {
+
   display: flex;
   justify-content: space-between;
-}
 
-.message.system,
-.message-timestamp {
-  font-style: italic;
-}
+  &-system,
+  &-timestamp {
+    font-style: italic;
+  }
 
-.message-username {
-  overflow: hidden;
-}
+  &-username {
+    overflow: hidden;
+    flex: 2;
+    font-weight: 700;
+  }
 
-.message-content {
-  flex: 6;
-  overflow: auto;
-  word-wrap: normal;
-  min-width: 0;
-}
+  &-content {
+    flex: 6;
+    overflow: auto;
+    word-wrap: normal;
+    min-width: 0;
+  }
 
-.message-username {
-  flex: 2;
-  font-weight: 700;
-}
+  &-img {
 
-.message-timestamp {
-  flex: 2;
-  text-align: right;
+    max-width: 50%;
+    object-fit: contain;
+
+    transform: scale(0.01) scale(100);
+
+    image-rendering: pixelated;
+
+    filter: sepia(100%) hue-rotate(40deg) saturate(300%);
+
+  }
+
+  &-timestamp {
+    flex: 2;
+    text-align: right;
+  }
+
 }
 
 
@@ -163,44 +169,30 @@ header {
   width: 100%;
   bottom: 0;
 
-}
+  &-message {
+    flex: 8;
+    text-shadow: inherit;
+    margin-right: 1ch;
+    background: inherit;
+    border: none;
+    display: block;
+    color: inherit;
+  }
 
-.chatbar-message {
-  background: inherit;
-  border: none;
-  display: block;
-  color: inherit;
-}
+  &-username {
+    background: inherit;
+    border: none;
+    display: block;
+    color: inherit;
 
-.chatbar-username {
-  background: inherit;
-  border: none;
-  display: block;
-  color: inherit;
+    flex: 2;
+    text-shadow: inherit;
 
-  margin-left: 1ch;
-}
+    margin-left: 1ch;
+  }
 
-.chatbar-message {
-  flex: 8;
-  text-shadow: inherit;
-  margin-right: 1ch;
-}
-
-.chatbar-username {
-  flex: 2;
-  text-shadow: inherit;
-}
-
-img {
-
-  max-width: 50%;
-  object-fit: contain;
-
-  transform: scale(0.01) scale(100);
-
-  image-rendering: pixelated;
-
-  filter: sepia(100%) hue-rotate(40deg) saturate(300%);
+  input:focus {
+    outline: none;
+  }
 
 }

@@ -7,13 +7,13 @@ function MessagePresenter({msg}) {
   switch (msg.type) {
   case "notification":
     return (
-      <div className="message system">{msg.content}</div>
+      <div className="message-system">{msg.content}</div>
     );
   case "image":
     return (
       <div className="message">
         <span className="message-username">{msg.username}</span>
-        <img src={msg.content} />
+        <img className="message-image" src={msg.content} />
         <span className="message-timestamp">{time}</span>
       </div>
     );

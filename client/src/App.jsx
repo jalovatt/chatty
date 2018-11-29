@@ -36,6 +36,14 @@ class App extends Component {
 
     this.targetAddress = "localhost:3001"
 
+
+    this.messageHandlers = {
+      "server-user-change": this.serverUserChange,
+      "server-welcome":     this.serverWelcome,
+      "server-name":        this.assignName,
+      "server-error":       this.serverError,
+    }
+
     this.cb = {
       chatBar: {
         onNameSubmit: this.onNameSubmit.bind(this),
@@ -98,6 +106,8 @@ class App extends Component {
 
   serverWelcome(msg) {
 
+    msg.type = "notification";
+
     this.id = msg.id;
     this.setState({
       header: {
@@ -122,7 +132,11 @@ class App extends Component {
   }
 
   serverUserChange(msg) {
-    this.setState({nav: {numUsers: msg.numUsers}});
+
+    // console.log("USER CHANGE");
+    // console.dir(msg);
+
+    this.setState({header: {numUsers: msg.numUsers}});
     this.newMessage(msg);
   }
 
@@ -142,23 +156,8 @@ class App extends Component {
     // console.log("INCOMING MESSAGE:");
     // console.dir(msg);
 
-    switch (msg.type) {
-    case "server-user-change":
-      this.serverUserChange(msg);
-      return;
-    case "server-welcome":
-      this.serverWelcome(msg);
-      return;
-    case "server-name":
-      this.assignName(msg);
-      return;
-    case "server-error":
-      this.serverError(msg);
-      return;
-      default:
-      this.newMessage(msg);
-      return;
-    }
+    const handler = this.messageHandlers[msg.type] || this.newMessage;
+    handler.bind(this)(msg);
 
   }
 

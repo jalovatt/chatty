@@ -12,8 +12,8 @@ const server = express()
   );
 
 const uuid = require("uuid/v4");
-const clients = require("./services/clients")(uuid);
+const clients = require("./clients/clients")(uuid);
 
 const wss = new SocketServer({ server });
 
-const router = require("./services/router")(wss, clients);
+const router = require("./router/router")(wss, clients);
