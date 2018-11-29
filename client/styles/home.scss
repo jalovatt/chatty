@@ -1,13 +1,32 @@
+html {
+
+  background-color: black;
+  height: 100%;
+}
+
 body {
+
+  box-sizing: border-box;
+
+  border: 1px solid $bg-color-heading;
+
   background: $bg-color;
   color: $text-color;
   font-family: $font;
   font-size: 28px;
 
-  height: 100%;
-  width: 100%;
+  position: relative;
 
   overflow: hidden;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 80ch;
+  height: 40rem;
 
 }
 
@@ -22,14 +41,14 @@ body {
 
 .background {
 
-  position: fixed;
+  position: absolute;
 
   top: 50%;
   left: 50%;
 
   transform: translate(-50%, -50%);
 
-  font-size: 160px;
+  font-size: 256px;
   opacity: 0.3;
 }
 
@@ -48,72 +67,78 @@ input:focus {
   outline: none;
 }
 
-.chatbar {
-  background: $bg-color;
-  bottom: 0;
-  display: flex;
+
+header {
+
+  color: $text-color-heading;
+  background-color: $bg-color-heading;
+
+  position: absolute;
   left: 0;
-  padding: 5px;
-  position: fixed;
   right: 0;
+  top: 0;
+
+  display: flex;
+
 }
 
-.chatbar-message {
-  background: $bg-color;
-  border: none;
-  display: block;
-  height: 40px;
-  line-height: 40px;
-  margin: 5px;
-  padding: 0 9px;
-  color: inherit;
-}
-
-.chatbar-username {
-  background: $bg-color;
-  border: none;
-  display: block;
-  height: 40px;
-  line-height: 40px;
-  margin: 5px;
-  padding: 0 9px;
-  font-weight: bold;
-  color: inherit;
-}
-
-.chatbar-message {
+.connected-to {
   flex: 8;
-  text-shadow: inherit;
+  margin-left: 1ch;
 }
 
-.chatbar-username {
+.num-users {
   flex: 2;
-  text-shadow: inherit;
+  text-align: right;
+  margin-right: 1ch;
 }
+
+.messages {
+
+  position: absolute;
+  top: 2rem;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+
+  padding-left: 1ch;
+  padding-right: 1ch;
+
+  overflow-y: auto;
+
+  width: calc(100% - 2ch);
+
+}
+
+.messages::-webkit-scrollbar {
+  background-color: $bg-color-heading;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background-color: $text-color-heading;
+}
+
+
 
 .message {
   display: flex;
-  // padding: 5px;
-  padding: 0px 5px;
+  justify-content: space-between;
 }
 
 .message.system,
 .message-timestamp {
   font-style: italic;
-  padding: 0px 20px;
 }
 
-.message-content,
 .message-username {
   overflow: hidden;
-  margin: 0px 5px;
-  padding: 0 10px;
 }
 
 .message-content {
-  flex: 8;
-  overflow: visible;
+  flex: 6;
+  overflow: auto;
   word-wrap: normal;
+  min-width: 0;
 }
 
 .message-username {
@@ -121,8 +146,49 @@ input:focus {
   font-weight: 700;
 }
 
-.num-users {
+.message-timestamp {
+  flex: 2;
+  text-align: right;
+}
+
+
+.chatbar {
+
+  color: $text-color-heading;
+  background-color: $bg-color-heading;
+  display: flex;
+
   position: absolute;
-  right: 10px;
-  line-height: 60px;
+
+  width: 100%;
+  bottom: 0;
+
+}
+
+.chatbar-message {
+  background: inherit;
+  border: none;
+  display: block;
+  color: inherit;
+}
+
+.chatbar-username {
+  background: inherit;
+  border: none;
+  display: block;
+  color: inherit;
+
+  margin-left: 1ch;
+}
+
+.chatbar-message {
+  flex: 8;
+  text-shadow: inherit;
+
+  margin-right: 1ch;
+}
+
+.chatbar-username {
+  flex: 2;
+  text-shadow: inherit;
 }
