@@ -62,10 +62,12 @@ class ChatBar extends Component {
   onNameKeyPress(e) {
 
     if (e.key !== "Enter") return;
+    if (e.target.value === this.props.user.name) return;
 
     // Passing the element as a callback so App can blur it
     // after the name-change request comes back
     this.props.cb.onNameSubmit(e.target.value, this.useNameFromProps.bind(this));
+    e.target.blur();
 
   }
 
