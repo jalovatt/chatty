@@ -184,11 +184,23 @@ header {
 .chatbar-message {
   flex: 8;
   text-shadow: inherit;
-
   margin-right: 1ch;
 }
 
 .chatbar-username {
   flex: 2;
   text-shadow: inherit;
+}
+
+img {
+
+  max-width: 50%;
+  object-fit: contain;
+
+  transform: scale(0.01) scale(100);
+
+  image-rendering: pixelated;
+
+  filter: sepia(100%) hue-rotate(40deg) saturate(300%);
+
 }

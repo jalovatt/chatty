@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 
 function MessagePresenter({msg}) {
 
-  console.dir(msg);
   const time = new Date(msg.timestamp).toLocaleTimeString();
 
   switch (msg.type) {
