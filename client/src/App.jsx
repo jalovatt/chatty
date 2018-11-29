@@ -78,15 +78,20 @@ class App extends Component {
     this.cb.updateName = cb;
   }
 
+  addMessage(msg) {
+    const rows = 8;
+    return this.state.messages.concat(msg).slice(-rows);
+  }
+
   newMessage(msg) {
-    const messages = this.state.messages.concat(msg);
+    const messages = this.addMessage(msg);
     this.setState({messages});
   }
 
   serverWelcome(msg) {
 
     this.id = msg.id;
-    const messages = this.state.messages.concat(msg);
+    const messages = this.addMessage(msg);
     this.setState({
       nav: {numUsers: msg.numUsers},
       messages,
