@@ -143,10 +143,6 @@ class App extends Component {
     // console.dir(msg);
 
     switch (msg.type) {
-    case "message":
-    case "notification":
-      this.newMessage(msg);
-      return;
     case "server-user-change":
       this.serverUserChange(msg);
       return;
@@ -158,6 +154,9 @@ class App extends Component {
       return;
     case "server-error":
       this.serverError(msg);
+      return;
+      default:
+      this.newMessage(msg);
       return;
     }
 

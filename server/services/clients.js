@@ -112,6 +112,10 @@ module.exports = function(uuid) {
         out.content = `${data.username} ${text}`;
         out.type = "notification";
         return out;
+      case "img":
+        out.content = text;
+        out.type = "image";
+        return out;
       }
     },
 
@@ -170,9 +174,10 @@ module.exports = function(uuid) {
     welcome(id, name) {
       const msg = {
         type: "server-welcome",
-        content: `Welcome, ${name}`,
+        content: `Welcome, ${name}. Type /me ... to perform actions or /img ...URL... to display an image.`,
         id,
         name,
+        timestamp: new Date(),
         numUsers: this.userCount()
       };
 

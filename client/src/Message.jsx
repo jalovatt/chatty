@@ -2,23 +2,32 @@ import React, {Component} from 'react';
 
 function MessagePresenter({msg}) {
 
-  let timestamp;
+  console.dir(msg);
+  const time = new Date(msg.timestamp).toLocaleTimeString();
 
   switch (msg.type) {
-  case "message":
-    const time = new Date(msg.timestamp).toLocaleTimeString();
+  case "notification":
+    return (
+      <div className="message system">{msg.content}</div>
+    );
+  case "image":
+    return (
+      <div className="message">
+        <span className="message-username">{msg.username}</span>
+        <img src={msg.content} />
+        <span className="message-timestamp">{time}</span>
+      </div>
+    );
+  default:
     return (
       <div className="message">
         <span className="message-username">{msg.username}</span>
         <span className="message-content">{msg.content}</span>
         <span className="message-timestamp">{time}</span>
+
       </div>
     );
 
-  default:
-    return (
-      <div className="message system">{msg.content}</div>
-    );
   }
 
 }

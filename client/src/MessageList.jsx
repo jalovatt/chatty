@@ -5,8 +5,8 @@ class MessageListPresenter extends Component {
 
   render() {
 
-    console.log("THIS");
-    console.dir(this);
+    // console.log("THIS");
+    // console.dir(this);
 
     return (
       <main className="messages">
