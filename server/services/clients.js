@@ -96,11 +96,34 @@ module.exports = function(uuid) {
       connections[id].socket.send(msg);
     },
 
+    parseActions(data) {
+
+      const match = data.content.slice(1).match(/^([^ ]+) (.+)/);
+
+      if (!match) return data;
+
+      const [action, text] = match.slice(1);
+      // console.log(action + "\t\t" + text);
+
+      const out = {...data};
+      switch (action) {
+      case "me":
+        out.content = `${data.username} ${text}`;
+        out.type = "notification";
+        return out;
+      }
+    },
+
     newMessage(data) {
 
       data.id = uuid();
       data.timestamp = new Date();
-      this.broadcast(data);
+
+      const out = (data.content[0] === "/")
+        ? this.parseActions(data)
+        : data;
+
+      this.broadcast(out);
 
     },
 

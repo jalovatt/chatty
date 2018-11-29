@@ -8,7 +8,7 @@ function AppPresenter({props, cb}) {
   return (
     <div>
       <NavBar numUsers={props.nav.numUsers} />
-      <MessageList messages={props.messages} />
+      <MessageList messages={props.messages} cb={cb.messageList}/>
       <ChatBar user={props.user} cb={cb.chatBar} />
     </div>
   );
@@ -35,7 +35,10 @@ class App extends Component {
       chatBar: {
         onNameSubmit: this.onNameSubmit.bind(this),
         onContentSubmit: this.onContentSubmit.bind(this),
-        getNameCB: this.getNameCB.bind(this)
+        getChatCallbacks: this.getChatCallbacks.bind(this)
+      },
+      messageList: {
+        getMsgCallbacks: this.getMsgCallbacks.bind(this),
       }
     }
 
@@ -74,27 +77,26 @@ class App extends Component {
 
   }
 
-  getNameCB(cb) {
-    this.cb.updateName = cb;
+  getMsgCallbacks(cbs) {
+    this.cb.scrollToBottom = cbs.scrollToBottom;
   }
 
-  addMessage(msg) {
-    const rows = 8;
-    return this.state.messages.concat(msg).slice(-rows);
+  getChatCallbacks(cbs) {
+    this.cb.updateName = cbs.updateName;
   }
 
   newMessage(msg) {
-    const messages = this.addMessage(msg);
+    const messages = this.state.messages.concat(msg);
     this.setState({messages});
+    this.cb.scrollToBottom();
   }
 
   serverWelcome(msg) {
 
     this.id = msg.id;
-    const messages = this.addMessage(msg);
     this.setState({
       nav: {numUsers: msg.numUsers},
-      messages,
+      messages: [msg],
       user: {name: msg.name}});
 
     this.cb.updateName();

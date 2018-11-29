@@ -43,7 +43,9 @@ class ChatBar extends Component {
       onContentKeyPress:  this.onContentKeyPress.bind(this)
     }
 
-    cb.getNameCB(this.useNameFromProps.bind(this));
+    cb.getChatCallbacks({
+      updateName: this.useNameFromProps.bind(this),
+    });
 
   }
 

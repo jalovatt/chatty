@@ -1,24 +1,43 @@
 import React, {Component} from 'react';
 import Message from "./Message.jsx";
 
-function MessageListPresenter({messages}) {
+class MessageListPresenter extends Component {
 
-  return (
-    <main className="messages">
-      {messages.map((msg) => <Message key={msg.id} msg={msg} />)}
-    </main>
-  );
+  render() {
+
+    console.log("THIS");
+    console.dir(this);
+
+    return (
+      <main className="messages">
+        {this.props.messages.map((msg) => <Message key={msg.id} msg={msg} />)}
+        <div ref={elm => {this.props.cbScrollElement(elm);}}></div>
+      </main>
+    );
+  }
 
 }
 
 class MessageList extends Component {
 
-  constructor(props) {
+  constructor({cb}) {
     super();
+
+    cb.getMsgCallbacks({
+      scrollToBottom: this.scrollToBottom.bind(this),
+    });
+  }
+
+  scrollToBottom() {
+    this.scrollElement.scrollIntoView();
+  }
+
+  getScrollElement(elm) {
+    this.scrollElement = elm;
   }
 
   render() {
-    return <MessageListPresenter messages={this.props.messages} />;
+    return <MessageListPresenter messages={this.props.messages} cbScrollElement={this.getScrollElement.bind(this)}/>;
   }
 
 }
