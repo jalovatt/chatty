@@ -2,7 +2,7 @@ body {
   background: $bg-color;
   color: $text-color;
   font-family: $font;
-  font-size: 18px;
+  font-size: 30px;
   margin: 70px 0;
 
 
@@ -63,20 +63,21 @@ body {
 
 .message {
   display: flex;
-  padding: 5px;
+  // padding: 5px;
+  padding: 0px 5px;
 }
 
 .message.system,
 .message-timestamp {
   font-style: italic;
-  padding: 5px 20px;
+  padding: 0px 20px;
   text-shadow: $glow-plain;
 }
 
 .message-content,
 .message-username {
   overflow: hidden;
-  margin: 5px;
+  margin: 0px 5px;
   padding: 0 10px;
   text-shadow: $glow-plain;
 }
