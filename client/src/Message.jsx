@@ -33,10 +33,6 @@ function MessagePresenter({msg}) {
 
 class Message extends Component {
 
-  constructor(props) {
-    super();
-  }
-
   render() {
     return <MessagePresenter msg={this.props.msg}/>
   }

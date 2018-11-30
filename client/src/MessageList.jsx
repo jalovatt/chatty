@@ -23,6 +23,8 @@ class MessageList extends Component {
   constructor({cb}) {
     super();
 
+    // Pass some functionality back to the App component so it can control
+    // things as needed
     cb.getMsgCallbacks({
       scrollToBottom: this.scrollToBottom.bind(this),
     });

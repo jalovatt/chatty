@@ -43,6 +43,7 @@ class ChatBar extends Component {
       onContentKeyPress:  this.onContentKeyPress.bind(this)
     }
 
+    // Use the callback provided from App to pass some functionality back up
     cb.getChatCallbacks({
       updateName: this.useNameFromProps.bind(this),
     });
@@ -53,6 +54,8 @@ class ChatBar extends Component {
     this.setState({nameBuffer: e.target.value});
   }
 
+  // Used by the App component to force an update, since the displayed name
+  // is otherwise controlled from this level
   useNameFromProps() {
     this.setState({nameBuffer: this.props.user.name});
   }

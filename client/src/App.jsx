@@ -44,6 +44,7 @@ class App extends Component {
       "server-error":       this.serverError,
     }
 
+    // For communicating with our children
     this.cb = {
       chatBar: {
         onNameSubmit: this.onNameSubmit.bind(this),
@@ -68,6 +69,7 @@ class App extends Component {
     this.socket.send(JSON.stringify(msg));
   }
 
+
   onNameSubmit(newName) {
 
     const msg = {
@@ -78,6 +80,7 @@ class App extends Component {
     this.send(msg);
 
   }
+
 
   onContentSubmit(content) {
 
@@ -90,13 +93,23 @@ class App extends Component {
 
   }
 
+
+  // These are passed to the MessageList and ChatBar components so they can
+  // send a couple of functions back to us.
   getMsgCallbacks(cbs) {
+
+    // So we can scroll the message list whenever a new message comes in
     this.cb.scrollToBottom = cbs.scrollToBottom;
+
   }
 
   getChatCallbacks(cbs) {
+
+    // So we can force an update to the displayed username
     this.cb.updateName = cbs.updateName;
+
   }
+
 
   newMessage(msg) {
     const messages = this.state.messages.concat(msg);
@@ -104,6 +117,8 @@ class App extends Component {
     this.cb.scrollToBottom();
   }
 
+
+  // Initial response from the server with credentials and initial state
   serverWelcome(msg) {
 
     msg.type = "notification";
@@ -122,6 +137,9 @@ class App extends Component {
 
   }
 
+
+  // Update our username since the server said it was okay and force
+  // the chatbar to update its copy
   assignName(msg) {
 
     const user = {...this.state.user};
@@ -131,6 +149,7 @@ class App extends Component {
 
   }
 
+  // Someone joined or left
   serverUserChange(msg) {
 
     // console.log("USER CHANGE");
@@ -143,6 +162,7 @@ class App extends Component {
     this.newMessage(msg);
   }
 
+
   serverError(msg) {
 
     const err = {...msg};
@@ -152,6 +172,8 @@ class App extends Component {
 
   }
 
+
+  // Routing logic for messages from the server
   incomingMessage(e) {
 
     const msg = JSON.parse(e.data);
@@ -167,21 +189,22 @@ class App extends Component {
   connectToServer() {
 
     const socket = new WebSocket(`ws://${this.targetAddress}`);
-
     socket.onmessage = this.incomingMessage.bind(this);
-
     this.socket = socket;
 
   }
 
+
   componentDidMount() {
     this.connectToServer();
   }
+
 
   render() {
     return (
       <AppPresenter props={this.state} cb={this.cb}/>
     );
   }
+
 }
 export default App;
